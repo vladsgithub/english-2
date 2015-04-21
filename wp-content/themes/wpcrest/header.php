@@ -98,7 +98,7 @@ if(WPCrest::$is_ajax === true) {
 				}
 			?>
 		</div>
-		<div class="alignright">
+		<div class="alignleft">
 			<?php
 				if(!empty(WPCrest::$settings['configuration']['user-support']['enable'])) {
 					?><div class="wpc-phone"><img src="<?php echo WPCrest::$settings['configuration']['user-support']['icon']; ?>" alt="" /> <span><?php echo WPCrest::$settings['configuration']['user-support']['text']; ?></span></div><?php

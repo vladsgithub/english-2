@@ -1,0 +1,185 @@
+var app = angular.module("angular", []);
+
+app.controller("controller", [ "$scope", "$http", function($scope, $http) {
+//    $http.post("/json/words.json").success(function(data){
+//        $scope.json = data;
+//    }).error(function(data){
+//        $scope.json = [];
+//    });
+	$scope.dom = function(dom) {
+		var s = '<a>link</a>';
+		var htmlObject = document.createElement('div');
+		htmlObject.innerHTML = s;
+		var ss = angular.element('<a>link</a>');
+		document.getElementById('p1').html(ss);
+		//return ss;
+	};
+
+	$scope.playPhrase = function(item) {
+		if (!item.sound) {
+			responsiveVoice.speak(item.word, 'UK English Male');
+			responsiveVoice.speak(item.word, 'UK English Female');
+		}
+	};
+
+	$scope.deleteWord = function(arr, i) {
+		if (confirm("Are you sure?")) arr.splice(i, 1);
+	};
+
+	$scope.enterJSON = function() {
+		$scope.newJSON = JSON.parse($scope.inputJSON);
+	};
+
+    $scope.updateDB = function() {
+
+        return false;
+		//$scope.json.push({
+		//    en: $scope.enWords
+		//});
+		//$scope.enWords = '';
+
+        var date = +new Date();
+        $http.post("/json/write.php?date=" + date, $scope.json).success(function(data){
+            console.log("data=", data);
+        }).error(function(data){
+            console.log("Error: " + data);
+            alert("Error: " + data);
+        });
+    }
+}]);
+
+function addTable(elm) {
+	var div, table;
+	if (elm.getAttribute('data-ready') == 'false') {
+		div = elm.getElementsByClassName('dom')[0];
+		table = div.innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;nbsp;/g,' ');
+		div.innerHTML = table;
+		elm.setAttribute('data-ready', true);
+	}
+}
+
+/* Use this as a bookmark in your browser's panel for www.wordreference.com
+
+javascript:
+(function(){
+	var div, iframe, form, input, submit, textarea;
+	var href = "http://www.wordreference.com/enru/";
+
+	if(!document.getElementById("div")){
+		div = document.createElement("div");
+		div.id = "div";
+		div.style.position = "absolute";
+		div.style.width = "100%";
+		div.style.height = "100%";
+		div.style.top = 0;
+		div.style.background = "#F1F1F1";
+		div.style.overflow = "auto";
+
+		iframe = document.createElement("iframe");
+		iframe.id = "iframe";
+		iframe.src = href;
+		iframe.style.width = "99%";
+		iframe.style.height = "100%";
+
+		form = document.createElement("form");
+		form.id = "form";
+		form.style.padding = "5px";
+		form.onsubmit = function(){
+			var iframeDoc, article, table, arr, wordArr = [], dataArr = [], word, trnsc, nextWord = 0,
+				words = document.getElementById("input").value.toLowerCase().split(/\W{1,}/);
+			var updateTable = function(arr, i) {
+				var table = document.createElement("table");
+				var addTR = function(i) {
+					table.appendChild(arr[i].cloneNode(true));
+					if (arr[i + 1] && !arr[i + 1].hasAttribute("id")) {
+						addTR(i + 1);
+					}
+					return table;
+				};
+				return addTR(i);
+			};
+
+			document.getElementById("textarea").value = "";
+			dataArr[0] = [{
+				ctg: "sentence",
+				word: document.getElementById("input").value,
+				trnsc: "",
+				trnsl: "",
+				dom: ""
+			}];
+
+			document.getElementById("iframe").onload = function() {
+				var obj;
+				iframeDoc = document.getElementById("iframe").contentWindow.document;
+				article = iframeDoc.getElementById("articleWRD");
+
+				if (article.getElementsByTagName("table").length) {
+					arr = article.getElementsByTagName("tr");
+					word = iframeDoc.getElementById("articleHead").getElementsByClassName("headerWord")[0].textContent;
+					trnsc = (iframeDoc.getElementById("pronWR")) ? iframeDoc.getElementById("pronWR").textContent : "";
+
+					for (var i = 0; i < arr.length; i++) {
+						if (arr[i].hasAttribute("id")) {
+							table = updateTable(arr, i);
+							obj = {
+								ctg: (arr[i].getElementsByTagName("td")[0].getElementsByTagName("i").length) ? arr[i].getElementsByTagName("i")[0].textContent : "",
+								word: (arr[i].getElementsByTagName("strong").length) ? arr[i].getElementsByTagName("strong")[0].textContent : word,
+								trnsc: trnsc,
+								trnsl: (arr[i].getElementsByClassName("ToWrd")[0].childNodes[0].data) ? arr[i].getElementsByClassName("ToWrd")[0].childNodes[0].data.trim() : "---no-translation---",
+								dom: '<table><tbody>' + table.innerHTML + '</tbody></table>'
+							};
+							wordArr.push(obj);
+						} else {
+							if (table) table.appendChild(arr[i].cloneNode(true));
+						}
+					}
+				}
+
+				dataArr.push(wordArr);
+				++nextWord;
+
+				if (nextWord < words.length) {
+					wordArr = [];
+					document.getElementById("textarea").value = "Completed " + Math.round(100*nextWord/words.length) + "%";
+					iframe.src = href + words[nextWord];
+				} else {
+					document.getElementById("textarea").value = JSON.stringify(dataArr);
+					document.getElementById("textarea").focus();
+					document.getElementById("textarea").select();
+				}
+			};
+
+			for (var i = 0; i < words.length; i++) if (!words[i] || (i > 0 && words.slice(0,i-1).indexOf(words[i])+1)) {words.splice(i,1); i--;}
+			iframe.src = href + words[0];
+
+			return false;
+		};
+
+		input = document.createElement("input");
+		input.id = "input";
+		input.type = "text";
+		input.style.width = "99%";
+
+		submit = document.createElement("button");
+		submit.type = "submit";
+		submit.innerHTML = "submit";
+		submit.style.marginLeft = "-55px";
+
+		textarea = document.createElement("textarea");
+		textarea.id = "textarea";
+		textarea.style.width = "98%";
+		textarea.style.margin = "5px";
+
+		form.appendChild(input);
+		form.appendChild(submit);
+		div.appendChild(form);
+		div.appendChild(textarea);
+		div.appendChild(iframe);
+
+		document.body.style.position = "fixed";
+		document.body.style.width = "100%";
+		document.body.style.height = "100%";
+		document.body.appendChild(div);
+	}
+})();
+	*/

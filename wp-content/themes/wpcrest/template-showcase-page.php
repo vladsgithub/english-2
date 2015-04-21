@@ -7,53 +7,93 @@
 get_header();
 
 the_post();
+?>
+<div class="wpc-blog-container wpc-container wpc-container-short-margin wpc-group" ng-app="angular">
+	<div id="showMessages" class="messages alert">alert</div>
+	<div class="wpc-blog-main new-words" ng-controller="controller">
+		<!--<ul>-->
+		<!--<li ng-repeat="item in json">-->
+		<!--<span>{{item.en}}</span>-->
+		<!--</li>-->
+		<!--</ul>-->
+		<form ng-submit="updateDB()">
+			<fieldset class="enter-json">
+				<textarea ng-model="inputJSON" placeholder="add english word"></textarea>
+				<button ng-click="enterJSON()">Enter JSON</button>
+			</fieldset>
 
-if(defined('FF_INSTALLED')) {
-	$fields = ff_get_field_from_section('wpc-showcase-page', 'wpc-showcase-page', 'meta', 'post', $post->ID);
-}
+			<fieldset>
+				<table>
+					<thead>
+					<tr>
+						<th class="category">category</th>
+						<th>word</th>
+						<th>transcription</th>
+						<th>type</th>
+						<th>translation</th>
+						<th>sound</th>
+						<th>picture</th>
+						<th>delete</th>
+					</tr>
+					</thead>
 
-if(empty($fields) || $fields['content-location'] == 1) {
-	?>
-	<div <?php post_class('wpc-type-page wpc-container wpc-container-short-margin wpc-container-with-line-separator wpc-group'); ?>>
-		<h1 class="wpc-title"><?php the_title(); ?></h1>
+					<tbody ng-repeat="data in newJSON">
+					<tr ng-repeat="item in data track by $index">
+						<td>
+							<input type="text" ng-model="item.ctg" value="{{item.ctg}}" />
+						</td>
+						<td>
+							<input type="text" ng-model="item.word" value="{{item.word}}" title="{{item.word}}" />
+						</td>
+						<td>
+							<input type="text" ng-model="item.trnsc" value="{{item.trnsc}}" />
+						</td>
+						<td>
+							<div class="word-type" onmouseover="addTable(this);" data-ready="false">
+								<span>type</span>
+								<div class="dom">{{item.dom}}</div>
+							</div>
+						</td>
+						<td>
+							<input type="text" ng-model="item.trnsl" value="{{item.trnsl}}" title="{{item.trnsl}}" />
+						</td>
+						<td>
+							<button ng-click="playPhrase(item)">play</button>
+							<label>
+								<input type="checkbox" ng-model="item.sound" ng-true-value="true" value="{{item.sound}}" />
+								<span>Other sound</span>
+							</label>
+						</td>
+						<td>
+							<label>
+								<input type="checkbox" ng-model="item.pict" value="{{item.pict}}" />
+								<span>Picture</span>
+							</label>
+						</td>
+						<td>
+							<button ng-click="deleteWord(data, $index)">delete</button>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</fieldset>
 
-		<div class="wpc-content">
-		<?php
-			the_content();
-
-			wp_link_pages();
-		?>
-		</div>
+			<fieldset>
+				<button type="submit">Save</button>
+			</fieldset>
+		</form>
 	</div>
-	<?php
-}
 
-if(!empty($fields) && empty($fields['teaser']['disable'])) {
-	if(!empty($fields['teaser']['title']) || !empty($fields['teaser']['description'])) {
-		WPCrest::insert_teaser(array(
-			'title' => $fields['teaser']['title'],
-			'button-label' => $fields['teaser']['button-label'],
-			'button-url' => $fields['teaser']['button-url'],
-			'description' => $fields['teaser']['description']
-		));
-	}
-}
+	<!-- <?php the_content(); ?> -->
 
-if(!empty($fields) && $fields['content-location'] == 2) {
-	?>
-	<div <?php post_class('wpc-type-page wpc-container wpc-container-large-margin wpc-group'); ?>>
-		<h1 class="wpc-title"><?php the_title(); ?></h1>
-
-		<div class="wpc-content">
+	<aside class="wpc-blog-sidebar">
 		<?php
-			the_content();
-
-			wp_link_pages();
+			if(is_active_sidebar('wpc-sidebar-widgets')) {
+				?><ul><?php dynamic_sidebar('wpc-sidebar-widgets'); ?></ul><?php
+			}
 		?>
-		</div>
-	</div>
-	<?php
-}
-
+	</aside>
+</div>
+<?php
 get_footer();
 ?>

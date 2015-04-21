@@ -2,17 +2,17 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Fourteen 1.2\n"
+"Project-Id-Version: Twenty Fourteen 1.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyfourteen\n"
-"POT-Creation-Date: 2014-09-03 00:45:47+00:00\n"
-"PO-Revision-Date: 2014-09-03 10:33+0400\n"
+"POT-Creation-Date: 2014-12-18 01:26:43+00:00\n"
+"PO-Revision-Date: 2014-12-18 20:00+0300\n"
 "Last-Translator: Sergey Biryukov <sergeybiryukov.ru@gmail.com>\n"
 "Language-Team: ru.wordpress.org <sergeybiryukov.ru@gmail.com>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.7.1\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n%10==1 && n%100!=11) ? 3 : "
 "((n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20)) ? 1 : 2);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -121,15 +121,16 @@ msgstr "Комментарии (%)"
 msgid "Edit"
 msgstr "Изменить"
 
-#: content-aside.php:46 content-audio.php:46 content-gallery.php:46
-#: content-image.php:46 content-link.php:46 content-quote.php:46
-#: content-video.php:46 content.php:54 inc/widgets.php:127 inc/widgets.php:172
-msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
-msgstr "Читать далее <span class=\"meta-nav\">&rarr;</span>"
-
+#. translators: %s: Name of current post
 #: content-aside.php:48 content-audio.php:48 content-gallery.php:48
-#: content-image.php:48 content-link.php:48 content-page.php:22
-#: content-quote.php:48 content-video.php:48 content.php:56 image.php:54
+#: content-image.php:48 content-link.php:48 content-quote.php:48
+#: content-video.php:48 content.php:56 inc/template-tags.php:219
+msgid "Continue reading %s <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Читать далее %s <span class=\"meta-nav\">&rarr;</span>"
+
+#: content-aside.php:53 content-audio.php:53 content-gallery.php:53
+#: content-image.php:53 content-link.php:53 content-page.php:22
+#: content-quote.php:53 content-video.php:53 content.php:61 image.php:54
 msgid "Pages:"
 msgstr "Страницы:"
 
@@ -205,15 +206,15 @@ msgctxt "Lato font: on or off"
 msgid "on"
 msgstr "on"
 
-#: functions.php:254
+#: functions.php:258
 msgid "Previous"
 msgstr "Назад"
 
-#: functions.php:255
+#: functions.php:259
 msgid "Next"
 msgstr "Далее"
 
-#: functions.php:372
+#: functions.php:376
 msgid "%d Article"
 msgid_plural "%d Articles"
 msgstr[0] "%d статья"
@@ -221,7 +222,7 @@ msgstr[1] "%d статьи"
 msgstr[2] "%d статей"
 msgstr[3] "%d статья"
 
-#: functions.php:491
+#: functions.php:495
 msgid "Page %s"
 msgstr "Страница %s"
 
@@ -253,23 +254,27 @@ msgstr ""
 "Тема Twenty Fourteen требует WordPress 3.6 или выше. У вас версия %s. "
 "Пожалуйста, обновите WordPress и попробуйте ещё раз."
 
-#: inc/customizer.php:19 inc/customizer.php:20
-msgid "Background may only be visible on wide screens."
-msgstr "Фон может отображаться только на широком экране."
-
-#: inc/customizer.php:28
+#: inc/customizer.php:24
 msgid "Site Title Color"
 msgstr "Цвет названия сайта"
 
-#: inc/customizer.php:31
+#: inc/customizer.php:27
 msgid "Display Site Title &amp; Tagline"
 msgstr "Отображать название и описание"
 
-#: inc/customizer.php:35 inc/featured-content.php:405
+#: inc/customizer.php:31 inc/customizer.php:32
+msgid "May only be visible on wide screens."
+msgstr "Может отображаться только на широком экране."
+
+#: inc/customizer.php:34 inc/customizer.php:35
+msgid "Background may only be visible on wide screens."
+msgstr "Фон может отображаться только на широком экране."
+
+#: inc/customizer.php:40 inc/featured-content.php:403
 msgid "Featured Content"
 msgstr "Избранное содержимое"
 
-#: inc/customizer.php:36 inc/featured-content.php:406
+#: inc/customizer.php:41 inc/featured-content.php:404
 msgid ""
 "Use a <a href=\"%1$s\">tag</a> to feature your posts. If no posts match the "
 "tag, <a href=\"%2$s\">sticky posts</a> will be displayed instead."
@@ -278,30 +283,30 @@ msgstr ""
 "Если ни одной записи с меткой не найдено, будут отображаться <a href=\"%2$s"
 "\">прилепленные записи</a>."
 
-#: inc/customizer.php:37 inc/customizer.php:102 inc/featured-content.php:407
-#: inc/featured-content.php:416 inc/featured-content.php:476
+#: inc/customizer.php:42 inc/customizer.php:108 inc/featured-content.php:405
+#: inc/featured-content.php:414 inc/featured-content.php:474
 msgctxt "featured content default tag slug"
 msgid "featured"
 msgstr "featured"
 
-#: inc/customizer.php:50
+#: inc/customizer.php:56
 msgid "Layout"
 msgstr "Разметка"
 
-#: inc/customizer.php:54
+#: inc/customizer.php:60
 msgid "Grid"
 msgstr "Сетка"
 
-#: inc/customizer.php:55
+#: inc/customizer.php:61
 msgid "Slider"
 msgstr "Слайдер"
 
 #. Theme Name of the plugin/theme
-#: inc/customizer.php:99
+#: inc/customizer.php:105
 msgid "Twenty Fourteen"
 msgstr "Twenty Fourteen"
 
-#: inc/customizer.php:102
+#: inc/customizer.php:108
 msgid ""
 "The home page features your choice of up to 6 posts prominently displayed in "
 "a grid or slider, controlled by a <a href=\"%1$s\">tag</a>; you can change "
@@ -315,7 +320,7 @@ msgstr ""
 "«Настроить»</a>. Если записей с меткой не найдено, будут отображаться <a "
 "href=\"%3$s\">прилепленные записи</a>."
 
-#: inc/customizer.php:103
+#: inc/customizer.php:109
 msgid ""
 "Enhance your site design by using <a href=\"%s\">Featured Images</a> for "
 "posts you&rsquo;d like to stand out (also known as post thumbnails). This "
@@ -328,7 +333,7 @@ msgstr ""
 "Twenty Fourteen использует миниатюры для записей и страниц (над заголовком), "
 "а также в разделе &laquo;Избранное содержимое&raquo; на главной."
 
-#: inc/customizer.php:104
+#: inc/customizer.php:110
 msgid ""
 "For an in-depth tutorial, and more tips and tricks, visit the <a href=\"%s"
 "\">Twenty Fourteen documentation</a>."
@@ -336,11 +341,11 @@ msgstr ""
 "Подробные инструкции и дополнительную информацию можно найти в <a href=\"%s"
 "\">документации Twenty Fourteen</a>."
 
-#: inc/featured-content.php:428
+#: inc/featured-content.php:426
 msgid "Tag Name"
 msgstr "Название метки"
 
-#: inc/featured-content.php:433
+#: inc/featured-content.php:431
 msgid "Don&rsquo;t display tag on front end."
 msgstr "Не отображать метку на сайте."
 
@@ -443,6 +448,10 @@ msgstr "Заметки"
 #: inc/widgets.php:80
 msgid "More asides"
 msgstr "Другие заметки"
+
+#: inc/widgets.php:127 inc/widgets.php:172
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Читать далее <span class=\"meta-nav\">&rarr;</span>"
 
 #: inc/widgets.php:162
 msgid "This gallery contains <a href=\"%1$s\" rel=\"bookmark\">%2$s photo</a>."

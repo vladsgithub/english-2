@@ -1756,9 +1756,33 @@ class WPCrest {
 	}
 }
 
+function scripts_connection() {
+    $theme_uri = get_template_directory_uri();
+
+    wp_register_script('angular', $theme_uri.'/js/angular.min.js', array('jquery'), '1.3.15');
+    /* Parameters:
+        registration name of the my script
+        path
+        dependence on other library
+        1.3.15 - my script version (that is the angular now)
+    */
+    wp_enqueue_script('angular');
+
+    wp_register_script('controllers', $theme_uri.'/js/controllers.js', array('angular'), '0.1');
+    wp_enqueue_script('controllers');
+
+
+}
+add_action('wp_enqueue_scripts', 'scripts_connection');
+
 if(file_exists(WPCrest::get_file_path('/custom/php/functions.php', 'parent'))) {
 	require_once(WPCrest::get_file_path('/custom/php/functions.php', 'parent'));
 }
+
+/* Отключаем админ панель для всех, кроме администраторов. */
+if (!current_user_can('administrator')):
+    show_admin_bar(false);
+endif;
 
 WPCrest::load();
 ?>
