@@ -82,6 +82,97 @@ the_post();
 				<button type="submit">Save</button>
 			</fieldset>
 		</form>
+
+<!--////////////////////////// begin: temporary solution ///////////////////////-->
+		<form ng-submit="enterSentence()">
+			<fieldset>
+				<table>
+					<thead>
+					<tr>
+						<th class="category">category</th>
+						<th>word</th>
+						<th>transcription</th>
+						<th>type</th>
+						<th>translation</th>
+						<th>sound</th>
+						<th>picture</th>
+						<th>delete</th>
+					</tr>
+					</thead>
+
+					<tbody>
+					<tr ng-repeat="item in sentences">
+						<td>
+							sentences
+						</td>
+						<td>
+							{{item.word}}
+						</td>
+						<td>
+							no transcription
+						</td>
+						<td>
+							type
+						</td>
+						<td>
+							{{item.trnsl}}
+						</td>
+						<td>
+							<button type="button" ng-click="playPhrase(item)">play</button>
+							<label>
+								<input type="checkbox" ng-model="item.sound" ng-true-value="true" value="{{item.sound}}" />
+								<span>Other sound</span>
+							</label>
+						</td>
+						<td>
+							no picture
+						</td>
+						<td>
+							not delete
+						</td>
+					</tr>
+					</tbody>
+
+					<tfoot>
+					<tr>
+						<td>
+							sentences
+						</td>
+						<td>
+							<input type="text" ng-model="newSnt.word" />
+						</td>
+						<td>
+							no transcription
+						</td>
+						<td>
+							type
+						</td>
+						<td>
+							<input type="text" ng-model="newSnt.trnsl" />
+						</td>
+						<td>
+							<button type="button" ng-click="playPhrase(newSnt)">play</button>
+							<label>
+								<input type="checkbox" ng-model="newSnt.sound" ng-true-value="true" value="{{newSnt.sound}}" />
+								<span>Other sound</span>
+							</label>
+						</td>
+						<td>
+							no picture
+						</td>
+						<td>
+							<button type="reset">Reset</button>
+						</td>
+					</tr>
+					</tfoot>
+				</table>
+			</fieldset>
+
+			<fieldset>
+				<button type="submit">Enter</button>
+			</fieldset>
+		</form>
+<!--////////////////////////// end: temporary solution ///////////////////////-->
 	</div>
 
 	<!-- <?php the_content(); ?> -->

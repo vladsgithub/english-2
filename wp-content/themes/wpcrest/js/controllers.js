@@ -16,7 +16,7 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 	};
 
 	$scope.playPhrase = function(item) {
-		if (!item.sound) {
+		if (item && !item.sound) {
 			responsiveVoice.speak(item.word, 'UK English Male');
 			responsiveVoice.speak(item.word, 'UK English Female');
 		}
@@ -45,7 +45,34 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
             console.log("Error: " + data);
             alert("Error: " + data);
         });
-    }
+    };
+
+////////////////////////// begin: temporary solution ///////////////////////
+	$http.post("/json/sentences.json").success(function(data){
+		$scope.sentences = data;
+	}).error(function(data){
+		$scope.sentences = [];
+	});
+
+	$scope.enterSentence = function() {
+		console.log($scope.newSnt, $scope.sentences);
+
+		if ($scope.newSnt && $scope.newSnt.word != "") {
+			$scope.sentences.push($scope.newSnt);
+			//$scope.newSnt.word = '';
+			//$scope.newSnt.trnsl = '';
+			$scope.newSnt = '';
+
+			var date = +new Date();
+			$http.post("/json/write.php?date=" + date, $scope.sentences).success(function(data){
+				console.log("data=", data);
+			}).error(function(data){
+				console.log("Error: " + data);
+				alert("Error: " + data);
+			});
+		}
+	};
+////////////////////////// end: temporary solution ///////////////////////
 }]);
 
 function addTable(elm) {
