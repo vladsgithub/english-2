@@ -9,14 +9,13 @@ get_header();
 the_post();
 ?>
 <div class="wpc-blog-container wpc-container wpc-container-short-margin wpc-group" ng-app="angular">
-	<div id="showMessages" class="messages alert">alert</div>
 	<div class="wpc-blog-main new-words" ng-controller="controller">
 		<!--<ul>-->
 		<!--<li ng-repeat="item in json">-->
 		<!--<span>{{item.en}}</span>-->
 		<!--</li>-->
 		<!--</ul>-->
-		<form ng-submit="updateDB()">
+		<form ng-submit="updateDB()" style="display: none">
 			<fieldset class="enter-json">
 				<textarea ng-model="inputJSON" placeholder="add english word"></textarea>
 				<button ng-click="enterJSON()">Enter JSON</button>
@@ -84,7 +83,10 @@ the_post();
 		</form>
 
 <!--////////////////////////// begin: temporary solution ///////////////////////-->
-		<form ng-submit="enterSentence()">
+		<button ng-click="test=false">add sentences</button>
+		<button ng-click="test=true">perform lessons</button>
+
+		<form class="add-sentences" ng-hide="test" ng-submit="enterSentence()">
 			<fieldset>
 				<table>
 					<thead>
@@ -170,6 +172,27 @@ the_post();
 
 			<fieldset>
 				<button type="submit">Enter</button>
+			</fieldset>
+		</form>
+
+		<form class="perform-lessons" ng-show="test" ng-submit="checkSentence()">
+			<fieldset>
+				<button id="play" type="button" ng-click="playPhrase(sound)" class="play">PLAY {{currentWordNumber + 1}}/{{quantityWords}}</button>
+			</fieldset>
+			<fieldset>
+				<label>English sentence:</label>
+				<input id="enSound" type="text" ng-model="sound.en" ng-class="sound.enClass" />
+			</fieldset>
+			<fieldset>
+				<label>Russian sentence:</label>
+				<input id="ruSound" type="text" ng-model="sound.ru" ng-class="sound.ruClass" />
+			</fieldset>
+			<fieldset>
+				<button type="submit">CHECK</button>
+			</fieldset>
+			<fieldset>
+				<br/><br/><br/>
+				<button id="newTest" type="button" ng-click="newTest()">NEW TEST</button>
 			</fieldset>
 		</form>
 <!--////////////////////////// end: temporary solution ///////////////////////-->

@@ -1457,6 +1457,36 @@ footer.wpc a {
       border: 1px solid gray;
     }
   }
+
+  .perform-lessons {
+    margin-top: 20px;
+
+    fieldset {
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 5px;
+      width: 100%;
+      border: 1px solid;
+      font-size: 18px;
+
+      &.false {
+        background: #FFB2B2;
+      }
+      &.true {
+        background: #B2FFBC;
+      }
+    }
+    button {
+      display: block;
+      margin: auto;
+      padding: 5px;
+
+      &.play {
+        padding: 30px;
+      }
+    }
+  }
 }
 
 .wpc-type-post-preview-container {

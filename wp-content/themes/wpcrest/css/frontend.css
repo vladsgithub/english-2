@@ -571,6 +571,32 @@ footer.wpc a {
 .wpc-blog-main table td {
   border: 1px solid gray;
 }
+.wpc-blog-main .perform-lessons {
+  margin-top: 20px;
+}
+.wpc-blog-main .perform-lessons fieldset {
+  margin-bottom: 20px;
+}
+.wpc-blog-main .perform-lessons input[type="text"] {
+  padding: 5px;
+  width: 100%;
+  border: 1px solid;
+  font-size: 18px;
+}
+.wpc-blog-main .perform-lessons input[type="text"].false {
+  background: #FFB2B2;
+}
+.wpc-blog-main .perform-lessons input[type="text"].true {
+  background: #B2FFBC;
+}
+.wpc-blog-main .perform-lessons button {
+  display: block;
+  margin: auto;
+  padding: 5px;
+}
+.wpc-blog-main .perform-lessons button.play {
+  padding: 30px;
+}
 .wpc-type-post-preview-container {
   float: left;
   margin: 0 1% 2em 0;

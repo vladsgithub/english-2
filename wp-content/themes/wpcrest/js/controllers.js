@@ -16,6 +16,7 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 	};
 
 	$scope.playPhrase = function(item) {
+		console.log("item=",item);
 		if (item && !item.sound) {
 			responsiveVoice.speak(item.word, 'UK English Male');
 			responsiveVoice.speak(item.word, 'UK English Female');
@@ -50,6 +51,7 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 ////////////////////////// begin: temporary solution ///////////////////////
 	$http.post("/json/sentences.json").success(function(data){
 		$scope.sentences = data;
+		initSentence();
 	}).error(function(data){
 		$scope.sentences = [];
 	});
@@ -59,8 +61,6 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 
 		if ($scope.newSnt && $scope.newSnt.word != "") {
 			$scope.sentences.push($scope.newSnt);
-			//$scope.newSnt.word = '';
-			//$scope.newSnt.trnsl = '';
 			$scope.newSnt = '';
 
 			var date = +new Date();
@@ -72,6 +72,80 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 			});
 		}
 	};
+
+	$scope.checkSentence = function() {
+		var allright = 0;
+		if ($scope.sound.ru.toLowerCase() == $scope.sound.trnsl.toLowerCase()) {
+			allright++;
+			$scope.sound.ruClass = "true";
+			document.getElementById("ruSound").value = $scope.sound.trnsl;
+		} else {
+			document.getElementById("ruSound").value = $scope.sound.trnsl.substring(0, compare($scope.sound.trnsl, $scope.sound.ru));
+			$scope.sound.ru = document.getElementById("ruSound").value;
+			$scope.sound.ruClass = "false";
+			document.getElementById("ruSound").focus();
+		}
+		if ($scope.sound.en.toLowerCase() == $scope.sound.word.toLowerCase()) {
+			allright++;
+			$scope.sound.enClass = "true";
+			document.getElementById("enSound").value = $scope.sound.word;
+		} else {
+			document.getElementById("enSound").value = $scope.sound.word.substring(0, compare($scope.sound.word, $scope.sound.en));
+			$scope.sound.en = document.getElementById("enSound").value;
+			$scope.sound.enClass = "false";
+			document.getElementById("enSound").focus();
+		}
+
+		if (allright == 2) {
+			// next test
+			var nextLesson = function() {
+				alert('Ok!!!');
+				initSentence(1);
+			};
+			setTimeout(nextLesson, 10);
+		} else {
+			var play = function() {
+				$scope.playPhrase($scope.sound);
+			};
+			setTimeout(play, 1000);
+		}
+	};
+
+	$scope.newTest = function() {
+		localStorage['lesson'] = $scope.sentences.length;
+		initSentence();
+		$scope.playPhrase($scope.sound);
+	};
+
+	function initSentence(next) {
+		next = next || 0;
+		$scope.quantityWords = $scope.sentences.length;
+		localStorage['lesson'] = localStorage['lesson'] || $scope.quantityWords;
+		if (localStorage['lesson'] > $scope.quantityWords) localStorage['lesson'] = $scope.quantityWords;
+		$scope.currentWordNumber = localStorage['lesson'] - 1 - next;
+		if ($scope.currentWordNumber >= 0) {
+			$scope.sound = {};
+			$scope.sound.word = $scope.sentences[$scope.currentWordNumber].word;
+			$scope.sound.trnsl = $scope.sentences[$scope.currentWordNumber].trnsl;
+			localStorage['lesson'] -= next;
+			if (next) {
+				document.getElementById("play").click();
+				document.getElementById("enSound").focus();
+			}
+		} else {
+			localStorage['lesson'] = $scope.quantityWords;
+			alert('Start from the beginning!!!');
+			document.getElementById("newTest").click();
+		}
+	}
+
+	function compare(main, word) {
+		var i;
+		for (i = 0; i < main.length; i++) {
+			if (main[i] != word[i]) break;
+		}
+		return i + 1;
+	}
 ////////////////////////// end: temporary solution ///////////////////////
 }]);
 
