@@ -52,6 +52,7 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 	$http.post("/json/sentences.json").success(function(data){
 		$scope.sentences = data;
 		initSentence();
+		initSentenceWrite();
 	}).error(function(data){
 		$scope.sentences = [];
 	});
@@ -117,6 +118,30 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 		$scope.playPhrase($scope.sound);
 	};
 
+	$scope.checkWriting = function() {
+		if ($scope.write.en.toLowerCase() == $scope.write.word.toLowerCase()) {
+			$scope.write.enClass = "true";
+			document.getElementById("enWrite").value = $scope.write.word;
+
+			var nextLesson = function() {
+				$scope.playPhrase($scope.write);
+				alert('It is right!!!');
+				initSentenceWrite(1);
+			};
+			setTimeout(nextLesson, 10);
+		} else {
+			document.getElementById("enWrite").value = $scope.write.word.substring(0, compare($scope.write.word, $scope.write.en));
+			$scope.write.en = document.getElementById("enWrite").value;
+			$scope.write.enClass = "false";
+			document.getElementById("enWrite").focus();
+		}
+	};
+
+	$scope.newTestWrite = function() {
+		localStorage['lessonWrite'] = $scope.sentences.length;
+		initSentenceWrite();
+	};
+
 	function initSentence(next) {
 		next = next || 0;
 		$scope.quantityWords = $scope.sentences.length;
@@ -136,6 +161,27 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 			localStorage['lesson'] = $scope.quantityWords;
 			alert('Start from the beginning!!!');
 			document.getElementById("newTest").click();
+		}
+	}
+
+	function initSentenceWrite(next) {
+		next = next || 0;
+		$scope.quantityWordsWrite = $scope.sentences.length;
+		localStorage['lessonWrite'] = localStorage['lessonWrite'] || $scope.quantityWordsWrite;
+		if (localStorage['lessonWrite'] > $scope.quantityWordsWrite) localStorage['lessonWrite'] = $scope.quantityWordsWrite;
+		$scope.currentWordNumberWrite = localStorage['lessonWrite'] - 1 - next;
+		if ($scope.currentWordNumberWrite >= 0) {
+			$scope.write = {};
+			$scope.write.word = $scope.sentences[$scope.currentWordNumberWrite].word;
+			$scope.write.trnsl = $scope.sentences[$scope.currentWordNumberWrite].trnsl;
+			localStorage['lessonWrite'] -= next;
+			if (next) {
+				document.getElementById('enWrite').focus();
+			}
+		} else {
+			localStorage['lessonWrite'] = $scope.quantityWordsWrite;
+			alert('Start from the beginning!!!');
+			document.getElementById("newTestWrite").click();
 		}
 	}
 

@@ -83,8 +83,9 @@ the_post();
 		</form>
 
 <!--////////////////////////// begin: temporary solution ///////////////////////-->
-		<button ng-click="test=false">add sentences</button>
-		<button ng-click="test=true">perform lessons</button>
+		<button ng-click="test=false" ng-class="!test ? 'active' : ''">add sentences</button>
+		<button ng-click="test=1" ng-class="test == 1 ? 'active' : ''">perform sound lessons</button>
+		<button ng-click="test=2" ng-class="test == 2 ? 'active' : ''">perform writing lessons</button>
 
 		<form class="add-sentences" ng-hide="test" ng-submit="enterSentence()">
 			<fieldset>
@@ -175,7 +176,7 @@ the_post();
 			</fieldset>
 		</form>
 
-		<form class="perform-lessons" ng-show="test" ng-submit="checkSentence()">
+		<form class="perform-lessons" ng-show="test == 1" ng-submit="checkSentence()">
 			<fieldset>
 				<button id="play" type="button" ng-click="playPhrase(sound)" class="play">PLAY {{currentWordNumber + 1}}/{{quantityWords}}</button>
 			</fieldset>
@@ -193,6 +194,23 @@ the_post();
 			<fieldset>
 				<br/><br/><br/>
 				<button id="newTest" type="button" ng-click="newTest()">NEW TEST</button>
+			</fieldset>
+		</form>
+
+		<form class="perform-lessons" ng-show="test == 2" ng-submit="checkWriting()">
+			<fieldset>
+				<h2>{{write.trnsl}} ({{currentWordNumberWrite + 1}}/{{quantityWordsWrite}})</h2>
+			</fieldset>
+			<fieldset>
+				<label>English sentence:</label>
+				<input id="enWrite" type="text" ng-model="write.en" ng-class="write.enClass" />
+			</fieldset>
+			<fieldset>
+				<button type="submit">CHECK</button>
+			</fieldset>
+			<fieldset>
+				<br/><br/><br/>
+				<button id="newTestWrite" type="button" ng-click="newTestWrite()">NEW TEST</button>
 			</fieldset>
 		</form>
 <!--////////////////////////// end: temporary solution ///////////////////////-->

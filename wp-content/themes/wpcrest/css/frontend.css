@@ -597,6 +597,9 @@ footer.wpc a {
 .wpc-blog-main .perform-lessons button.play {
   padding: 30px;
 }
+.wpc-blog-main button.active {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
 .wpc-type-post-preview-container {
   float: left;
   margin: 0 1% 2em 0;
