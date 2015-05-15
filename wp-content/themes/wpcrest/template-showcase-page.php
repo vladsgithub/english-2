@@ -93,10 +93,10 @@ the_post();
 					<thead>
 					<tr>
 						<th class="category">category</th>
-						<th>word</th>
-						<th>transcription</th>
+						<th class="word">word</th>
+						<th>trnsc</th>
 						<th>type</th>
-						<th>translation</th>
+						<th class="translation">translation</th>
 						<th>sound</th>
 						<th>picture</th>
 						<th>delete</th>
@@ -112,7 +112,7 @@ the_post();
 							{{item.word}}
 						</td>
 						<td>
-							no transcription
+							no
 						</td>
 						<td>
 							type
@@ -124,14 +124,13 @@ the_post();
 							<button type="button" ng-click="playPhrase(item)">play</button>
 							<label>
 								<input type="checkbox" ng-model="item.sound" ng-true-value="true" value="{{item.sound}}" />
-								<span>Other sound</span>
 							</label>
 						</td>
 						<td>
-							no picture
+							no
 						</td>
 						<td>
-							not delete
+							no
 						</td>
 					</tr>
 					</tbody>
@@ -145,7 +144,7 @@ the_post();
 							<input type="text" ng-model="newSnt.word" />
 						</td>
 						<td>
-							no transcription
+							no
 						</td>
 						<td>
 							type
@@ -157,11 +156,10 @@ the_post();
 							<button type="button" ng-click="playPhrase(newSnt)">play</button>
 							<label>
 								<input type="checkbox" ng-model="newSnt.sound" ng-true-value="true" value="{{newSnt.sound}}" />
-								<span>Other sound</span>
 							</label>
 						</td>
 						<td>
-							no picture
+							no
 						</td>
 						<td>
 							<button type="reset">Reset</button>
@@ -199,7 +197,8 @@ the_post();
 
 		<form class="perform-lessons" ng-show="test == 2" ng-submit="checkWriting()">
 			<fieldset>
-				<h2>{{write.trnsl}} ({{currentWordNumberWrite + 1}}/{{quantityWordsWrite}})</h2>
+				<h2>{{write.trnsl}}</h2>
+				<h3>({{currentWordNumberWrite + 1}}/{{quantityWordsWrite}})</h3>
 			</fieldset>
 			<fieldset>
 				<label>English sentence:</label>

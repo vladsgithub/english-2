@@ -571,6 +571,10 @@ footer.wpc a {
 .wpc-blog-main table td {
   border: 1px solid gray;
 }
+.wpc-blog-main table .word,
+.wpc-blog-main table .translation {
+  min-width: 400px;
+}
 .wpc-blog-main .perform-lessons {
   margin-top: 20px;
 }
@@ -596,6 +600,16 @@ footer.wpc a {
 }
 .wpc-blog-main .perform-lessons button.play {
   padding: 30px;
+}
+.wpc-blog-main .perform-lessons h2 {
+  margin: 10px 0;
+  text-align: center;
+  font-size: 24px;
+}
+.wpc-blog-main .perform-lessons h3 {
+  margin: 5px 0;
+  text-align: center;
+  font-size: 16px;
 }
 .wpc-blog-main button.active {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
@@ -1680,7 +1694,7 @@ footer.wpc a {
   width: 100%;
 }
 .new-words table .category {
-  width: 100px;
+  width: 70px;
 }
 .new-words .enter-json button {
   vertical-align: top;

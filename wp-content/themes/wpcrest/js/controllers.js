@@ -58,7 +58,8 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 	});
 
 	$scope.enterSentence = function() {
-		console.log($scope.newSnt, $scope.sentences);
+		$scope.newSnt.word = $scope.newSnt.word.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
+		$scope.newSnt.trnsl = $scope.newSnt.trnsl.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
 
 		if ($scope.newSnt && $scope.newSnt.word != "") {
 			$scope.sentences.push($scope.newSnt);
@@ -76,6 +77,9 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 
 	$scope.checkSentence = function() {
 		var allright = 0;
+		$scope.sound.ru = $scope.sound.ru.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
+		$scope.sound.en = $scope.sound.en.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
+
 		if ($scope.sound.ru.toLowerCase() == $scope.sound.trnsl.toLowerCase()) {
 			allright++;
 			$scope.sound.ruClass = "true";
@@ -119,6 +123,7 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 	};
 
 	$scope.checkWriting = function() {
+		$scope.write.en = $scope.write.en.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
 		if ($scope.write.en.toLowerCase() == $scope.write.word.toLowerCase()) {
 			$scope.write.enClass = "true";
 			document.getElementById("enWrite").value = $scope.write.word;
@@ -158,9 +163,11 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 				document.getElementById("enSound").focus();
 			}
 		} else {
-			localStorage['lesson'] = $scope.quantityWords;
-			alert('Start from the beginning!!!');
-			document.getElementById("newTest").click();
+			if ($scope.quantityWords) {
+				localStorage['lesson'] = $scope.quantityWords;
+				alert('Start from the beginning!!!');
+				document.getElementById("newTest").click();
+			}
 		}
 	}
 
@@ -176,12 +183,15 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 			$scope.write.trnsl = $scope.sentences[$scope.currentWordNumberWrite].trnsl;
 			localStorage['lessonWrite'] -= next;
 			if (next) {
+				$scope.$apply();
 				document.getElementById('enWrite').focus();
 			}
 		} else {
-			localStorage['lessonWrite'] = $scope.quantityWordsWrite;
-			alert('Start from the beginning!!!');
-			document.getElementById("newTestWrite").click();
+			if ($scope.quantityWordsWrite) {
+				localStorage['lessonWrite'] = $scope.quantityWordsWrite;
+				alert('Start from the beginning!!!');
+				document.getElementById("newTestWrite").click();
+			}
 		}
 	}
 
