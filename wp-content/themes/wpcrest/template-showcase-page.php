@@ -141,7 +141,7 @@ the_post();
 							sentences
 						</td>
 						<td>
-							<input type="text" ng-model="newSnt.word" />
+							<input id="enSentence" type="text" ng-model="newSnt.word" />
 						</td>
 						<td>
 							no
@@ -150,7 +150,7 @@ the_post();
 							type
 						</td>
 						<td>
-							<input type="text" ng-model="newSnt.trnsl" />
+							<input id="ruSentence" type="text" ng-model="newSnt.trnsl" />
 						</td>
 						<td>
 							<button type="button" ng-click="playPhrase(newSnt)">play</button>

@@ -79,6 +79,8 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 				alert("Error: " + data);
 			});
 		}
+
+		document.getElementById('enSentence').focus();
 	};
 
 	$scope.randomSentence = function() {
