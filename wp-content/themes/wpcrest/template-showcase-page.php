@@ -104,9 +104,9 @@ the_post();
 					</thead>
 
 					<tbody>
-					<tr ng-repeat="item in sentences">
+					<tr ng-repeat="item in sentences track by $index">
 						<td>
-							sentences
+							{{$index + 1}}
 						</td>
 						<td>
 							{{item.word}}
@@ -171,6 +171,59 @@ the_post();
 
 			<fieldset>
 				<button type="submit">Enter</button>
+			</fieldset>
+			<fieldset>
+				<br/><br/><br/><br/>
+				<button type="button" ng-click="randomSentence()">RANDOM {{random.length}} / {{sentences.length}}</button>
+			</fieldset>
+
+			<fieldset style="opacity: 0.5">
+				<table>
+					<thead>
+					<tr>
+						<th class="category">category</th>
+						<th class="word">word</th>
+						<th>trnsc</th>
+						<th>type</th>
+						<th class="translation">translation</th>
+						<th>sound</th>
+						<th>picture</th>
+						<th>delete</th>
+					</tr>
+					</thead>
+
+					<tbody>
+					<tr ng-repeat="item in random track by $index">
+						<td>
+							{{$index + 1}}
+						</td>
+						<td>
+							{{item.word}}
+						</td>
+						<td>
+							no
+						</td>
+						<td>
+							type
+						</td>
+						<td>
+							{{item.trnsl}}
+						</td>
+						<td>
+							<button type="button" ng-click="playPhrase(item)">play</button>
+							<label>
+								<input type="checkbox" ng-model="item.sound" ng-true-value="true" value="{{item.sound}}" />
+							</label>
+						</td>
+						<td>
+							no
+						</td>
+						<td>
+							no
+						</td>
+					</tr>
+					</tbody>
+				</table>
 			</fieldset>
 		</form>
 

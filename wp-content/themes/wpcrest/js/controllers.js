@@ -57,6 +57,12 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 		$scope.sentences = [];
 	});
 
+	$http.post("/json/sentences-random.json").success(function(data){
+		$scope.random = data;
+	}).error(function(data){
+		$scope.random = [];
+	});
+
 	$scope.enterSentence = function() {
 		$scope.newSnt.word = $scope.newSnt.word.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
 		$scope.newSnt.trnsl = $scope.newSnt.trnsl.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
@@ -73,6 +79,19 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 				alert("Error: " + data);
 			});
 		}
+	};
+
+	$scope.randomSentence = function() {
+		$scope.random = $scope.sentences.slice(0);
+		$scope.random.shuffle();
+
+		var date = +new Date();
+		$http.post("/json/write-random.php?date=" + date, $scope.random).success(function(data){
+			console.log("random data=", data);
+		}).error(function(data){
+			console.log("random Error: " + data);
+			alert("Error: " + data);
+		});
 	};
 
 	$scope.checkSentence = function() {
@@ -202,6 +221,24 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 		}
 		return i + 1;
 	}
+
+	/* Array.shuffle( deep ) - перемешать элементы массива случайным образом
+
+	 deep - необязательный аргумент логического типа, указывающий на то,
+	 нужно ли рекурсивно обрабатывать вложенные массивы;
+	 по умолчанию false (не обрабатывать)
+	 */
+	Array.prototype.shuffle = function(b)	{
+		var i = this.length, j, t;
+		while (i) {
+			j = Math.floor( ( i-- ) * Math.random() );
+			t = b && typeof this[i].shuffle!=='undefined' ? this[i].shuffle() : this[i];
+			this[i] = this[j];
+			this[j] = t;
+		}
+
+		return this;
+	};
 ////////////////////////// end: temporary solution ///////////////////////
 }]);
 
