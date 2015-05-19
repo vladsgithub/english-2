@@ -98,26 +98,36 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 
 	$scope.checkSentence = function() {
 		var allright = 0;
-		$scope.sound.ru = $scope.sound.ru.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
-		$scope.sound.en = $scope.sound.en.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
+		if ($scope.sound.ru) $scope.sound.ru = $scope.sound.ru.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
+		if ($scope.sound.en) $scope.sound.en = $scope.sound.en.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
 
-		if ($scope.sound.ru.toLowerCase() == $scope.sound.trnsl.toLowerCase()) {
-			allright++;
-			$scope.sound.ruClass = "true";
-			document.getElementById("ruSound").value = $scope.sound.trnsl;
+		if ($scope.sound.ru) {
+			if ($scope.sound.ru.toLowerCase() == $scope.sound.trnsl.toLowerCase()) {
+				allright++;
+				$scope.sound.ruClass = "true";
+				document.getElementById("ruSound").value = $scope.sound.trnsl;
+			} else {
+				document.getElementById("ruSound").value = $scope.sound.trnsl.substring(0, compare($scope.sound.trnsl, $scope.sound.ru));
+				$scope.sound.ru = document.getElementById("ruSound").value;
+				$scope.sound.ruClass = "false";
+				document.getElementById("ruSound").focus();
+			}
 		} else {
-			document.getElementById("ruSound").value = $scope.sound.trnsl.substring(0, compare($scope.sound.trnsl, $scope.sound.ru));
-			$scope.sound.ru = document.getElementById("ruSound").value;
 			$scope.sound.ruClass = "false";
 			document.getElementById("ruSound").focus();
 		}
-		if ($scope.sound.en.toLowerCase() == $scope.sound.word.toLowerCase()) {
-			allright++;
-			$scope.sound.enClass = "true";
-			document.getElementById("enSound").value = $scope.sound.word;
+		if ($scope.sound.en) {
+			if ($scope.sound.en.toLowerCase() == $scope.sound.word.toLowerCase()) {
+				allright++;
+				$scope.sound.enClass = "true";
+				document.getElementById("enSound").value = $scope.sound.word;
+			} else {
+				document.getElementById("enSound").value = $scope.sound.word.substring(0, compare($scope.sound.word, $scope.sound.en));
+				$scope.sound.en = document.getElementById("enSound").value;
+				$scope.sound.enClass = "false";
+				document.getElementById("enSound").focus();
+			}
 		} else {
-			document.getElementById("enSound").value = $scope.sound.word.substring(0, compare($scope.sound.word, $scope.sound.en));
-			$scope.sound.en = document.getElementById("enSound").value;
 			$scope.sound.enClass = "false";
 			document.getElementById("enSound").focus();
 		}
