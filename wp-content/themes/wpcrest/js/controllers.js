@@ -51,14 +51,14 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 ////////////////////////// begin: temporary solution ///////////////////////
 	$http.post("/json/sentences.json").success(function(data){
 		$scope.sentences = data;
-		initSentence();
-		initSentenceWrite();
 	}).error(function(data){
 		$scope.sentences = [];
 	});
 
 	$http.post("/json/sentences-random.json").success(function(data){
 		$scope.random = data;
+		initSentence();
+		initSentenceWrite();
 	}).error(function(data){
 		$scope.random = [];
 	});
@@ -101,21 +101,23 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 		if ($scope.sound.ru) $scope.sound.ru = $scope.sound.ru.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
 		if ($scope.sound.en) $scope.sound.en = $scope.sound.en.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
 
-		if ($scope.sound.ru) {
-			if ($scope.sound.ru.toLowerCase() == $scope.sound.trnsl.toLowerCase()) {
-				allright++;
-				$scope.sound.ruClass = "true";
-				document.getElementById("ruSound").value = $scope.sound.trnsl;
-			} else {
-				document.getElementById("ruSound").value = $scope.sound.trnsl.substring(0, compare($scope.sound.trnsl, $scope.sound.ru));
-				$scope.sound.ru = document.getElementById("ruSound").value;
-				$scope.sound.ruClass = "false";
-				document.getElementById("ruSound").focus();
-			}
-		} else {
-			$scope.sound.ruClass = "false";
-			document.getElementById("ruSound").focus();
-		}
+		//if ($scope.sound.ru) {
+		//	if ($scope.sound.ru.toLowerCase() == $scope.sound.trnsl.toLowerCase()) {
+		//		allright++;
+		//		$scope.sound.ruClass = "true";
+		//		document.getElementById("ruSound").value = $scope.sound.trnsl;
+		//	} else {
+		//		document.getElementById("ruSound").value = $scope.sound.trnsl.substring(0, compare($scope.sound.trnsl, $scope.sound.ru));
+		//		$scope.sound.ru = document.getElementById("ruSound").value;
+		//		$scope.sound.ruClass = "false";
+		//		document.getElementById("ruSound").focus();
+		//	}
+		//} else {
+		//	$scope.sound.ruClass = "false";
+		//	document.getElementById("ruSound").focus();
+		//}
+		document.getElementById("ruSound").value = $scope.sound.trnsl;
+
 		if ($scope.sound.en) {
 			if ($scope.sound.en.toLowerCase() == $scope.sound.word.toLowerCase()) {
 				allright++;
@@ -132,9 +134,10 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 			document.getElementById("enSound").focus();
 		}
 
-		if (allright == 2) {
+		if (allright == 1) {
 			// next test
 			var nextLesson = function() {
+				$scope.playPhrase($scope.sound);
 				alert('Ok!!!');
 				initSentence(1);
 			};
@@ -180,14 +183,14 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 
 	function initSentence(next) {
 		next = next || 0;
-		$scope.quantityWords = $scope.sentences.length;
+		$scope.quantityWords = $scope.random.length;
 		localStorage['lesson'] = localStorage['lesson'] || $scope.quantityWords;
 		if (localStorage['lesson'] > $scope.quantityWords) localStorage['lesson'] = $scope.quantityWords;
 		$scope.currentWordNumber = localStorage['lesson'] - 1 - next;
 		if ($scope.currentWordNumber >= 0) {
 			$scope.sound = {};
-			$scope.sound.word = $scope.sentences[$scope.currentWordNumber].word;
-			$scope.sound.trnsl = $scope.sentences[$scope.currentWordNumber].trnsl;
+			$scope.sound.word = $scope.random[$scope.currentWordNumber].word;
+			$scope.sound.trnsl = $scope.random[$scope.currentWordNumber].trnsl;
 			localStorage['lesson'] -= next;
 			if (next) {
 				document.getElementById("play").click();
@@ -204,14 +207,14 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 
 	function initSentenceWrite(next) {
 		next = next || 0;
-		$scope.quantityWordsWrite = $scope.sentences.length;
+		$scope.quantityWordsWrite = $scope.random.length;
 		localStorage['lessonWrite'] = localStorage['lessonWrite'] || $scope.quantityWordsWrite;
 		if (localStorage['lessonWrite'] > $scope.quantityWordsWrite) localStorage['lessonWrite'] = $scope.quantityWordsWrite;
 		$scope.currentWordNumberWrite = localStorage['lessonWrite'] - 1 - next;
 		if ($scope.currentWordNumberWrite >= 0) {
 			$scope.write = {};
-			$scope.write.word = $scope.sentences[$scope.currentWordNumberWrite].word;
-			$scope.write.trnsl = $scope.sentences[$scope.currentWordNumberWrite].trnsl;
+			$scope.write.word = $scope.random[$scope.currentWordNumberWrite].word;
+			$scope.write.trnsl = $scope.random[$scope.currentWordNumberWrite].trnsl;
 			localStorage['lessonWrite'] -= next;
 			if (next) {
 				$scope.$apply();

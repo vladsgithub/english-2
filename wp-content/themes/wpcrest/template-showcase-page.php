@@ -235,7 +235,7 @@ the_post();
 				<label>English sentence:</label>
 				<input id="enSound" type="text" ng-model="sound.en" ng-class="sound.enClass" />
 			</fieldset>
-			<fieldset>
+			<fieldset ng-show="sound.enClass == 'true'">
 				<label>Russian sentence:</label>
 				<input id="ruSound" type="text" ng-model="sound.ru" ng-class="sound.ruClass" />
 			</fieldset>
