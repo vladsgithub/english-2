@@ -230,6 +230,8 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 	}
 
 	function compare(main, word) {
+		main = main.toLowerCase();
+		word = word.toLowerCase();
 		var i;
 		for (i = 0; i < main.length; i++) {
 			if (main[i] != word[i]) break;
