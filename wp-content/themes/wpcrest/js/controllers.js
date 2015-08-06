@@ -49,13 +49,17 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
     };
 
 ////////////////////////// begin: temporary solution ///////////////////////
-	$http.post("/json/sentences.json").success(function(data){
+	//var jsonFileName = 'sentences';
+	var jsonFileName = 'lesson-01';
+	document.getElementsByClassName('wpc-description')[0].innerHTML = '=====================CURRENT FILE - <b>' + jsonFileName + '</b>=====================';
+
+	$http.post("/json/" + jsonFileName + ".json").success(function(data){
 		$scope.sentences = data;
 	}).error(function(data){
 		$scope.sentences = [];
 	});
 
-	$http.post("/json/sentences-random.json").success(function(data){
+	$http.post("/json/" + jsonFileName + "-random.json").success(function(data){
 		$scope.random = data;
 		initSentence();
 		initSentenceWrite();
@@ -72,7 +76,7 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 			$scope.newSnt = '';
 
 			var date = +new Date();
-			$http.post("/json/write.php?date=" + date, $scope.sentences).success(function(data){
+			$http.post("/json/write.php?date=" + date + "&jsonFileName=" + jsonFileName, $scope.sentences).success(function(data){
 				console.log("data=", data);
 			}).error(function(data){
 				console.log("Error: " + data);
@@ -88,7 +92,7 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 		$scope.random.shuffle();
 
 		var date = +new Date();
-		$http.post("/json/write-random.php?date=" + date, $scope.random).success(function(data){
+		$http.post("/json/write-random.php?date=" + date + "&jsonFileName=" + jsonFileName, $scope.random).success(function(data){
 			console.log("random data=", data);
 		}).error(function(data){
 			console.log("random Error: " + data);

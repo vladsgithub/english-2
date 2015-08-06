@@ -13,8 +13,8 @@
 ////////////////////////// begin: temporary solution ///////////////////////
 $postdata = file_get_contents("php://input");
 
-$oldFile = "sentences-".$_GET["date"].".json";
-$newFile = "sentences.json";
+$oldFile = $_GET["jsonFileName"]."-".$_GET["date"].".json";
+$newFile = $_GET["jsonFileName"].".json";
 
 if (file_exists($newFile)) copy($newFile, $oldFile);
 file_put_contents($newFile, $postdata);
