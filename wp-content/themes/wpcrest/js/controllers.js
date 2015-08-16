@@ -50,7 +50,7 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 
 ////////////////////////// begin: temporary solution ///////////////////////
 	//var jsonFileName = 'sentences';
-	var jsonFileName = 'lesson-03';
+	var jsonFileName = 'lesson-04';
 	document.getElementsByClassName('wpc-description')[0].innerHTML = '=====================CURRENT FILE - <b>' + jsonFileName + '</b>=====================';
 
 	$http.post("/json/" + jsonFileName + ".json").success(function(data){
