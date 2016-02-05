@@ -601,6 +601,12 @@ footer.wpc a {
 .wpc-blog-main .perform-lessons button.play {
   padding: 30px;
 }
+.wpc-blog-main .perform-lessons h1 {
+    margin: 10px 0;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
 .wpc-blog-main .perform-lessons h2 {
   margin: 10px 0;
   text-align: center;
@@ -610,6 +616,9 @@ footer.wpc a {
   margin: 5px 0;
   text-align: center;
   font-size: 16px;
+}
+.wpc-blog-main button {
+    margin: 5px;
 }
 .wpc-blog-main button.active {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
@@ -1684,6 +1693,12 @@ footer.wpc a {
   margin: 0 !important;
 }
 /* A page of the new words */
+.new-words .inline-block-btn {
+    text-align: center;
+}
+.new-words .inline-block-btn button {
+    display: inline-block;
+}
 .new-words tr:hover {
   background: #afe6fa;
 }

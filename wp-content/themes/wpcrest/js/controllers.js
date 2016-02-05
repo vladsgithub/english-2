@@ -161,24 +161,24 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 	};
 
 	$scope.checkWriting = function() {
-		$scope.write.en = $scope.write.en.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
-		if ($scope.write.en.toLowerCase() == $scope.write.word.toLowerCase()) {
-			$scope.write.enClass = "true";
-			document.getElementById("enWrite").value = $scope.write.word;
+        $scope.write.en = $scope.write.en.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
+        if ($scope.write.en.toLowerCase() == $scope.write.word.toLowerCase()) {
+            $scope.write.enClass = "true";
+            document.getElementById("enWrite").value = $scope.write.word;
 
-			var nextLesson = function() {
-				$scope.playPhrase($scope.write);
-				alert('It is right!!!');
-				initSentenceWrite(1);
-			};
-			setTimeout(nextLesson, 10);
-		} else {
-			document.getElementById("enWrite").value = $scope.write.word.substring(0, compare($scope.write.word, $scope.write.en));
-			$scope.write.en = document.getElementById("enWrite").value;
-			$scope.write.enClass = "false";
-			document.getElementById("enWrite").focus();
-		}
-	};
+            var nextLesson = function() {
+                $scope.playPhrase($scope.write);
+                alert('It is right!!!');
+                initSentenceWrite(1);
+            };
+            setTimeout(nextLesson, 10);
+        } else {
+            document.getElementById("enWrite").value = $scope.write.word.substring(0, compare($scope.write.word, $scope.write.en));
+            $scope.write.en = document.getElementById("enWrite").value;
+            $scope.write.enClass = "false";
+            document.getElementById("enWrite").focus();
+        }
+    };
 
 	$scope.newTestWrite = function() {
 		localStorage['lessonWrite'] = $scope.sentences.length;
@@ -232,6 +232,82 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 			}
 		}
 	}
+
+    $scope.initSoundLesson = function() {
+        $scope.quantityExpression = $scope.random.length;
+        localStorage['quantityExpression'] = $scope.quantityExpression;// localStorage['quantityExpression'] || $scope.quantityExpression;
+        $scope.currentExpression = $scope.quantityExpression;
+        localStorage['currentExpression'] = $scope.currentExpression;
+        if (localStorage['quantityExpression'] > $scope.quantityExpression) localStorage['quantityExpression'] = $scope.quantityExpression;
+
+        $scope.isPlayLesson = true;
+
+        showNextExpressions();
+    };
+    $scope.stopSoundLesson = function() {
+        $scope.isPlayLesson = false;
+    };
+    $scope.playSoundLesson = function() {
+        if (!$scope.isPlayLesson) {
+            $scope.isPlayLesson = true;
+            showNextExpressions();
+        }
+    };
+    $scope.prevSoundLesson = function() {
+        if ($scope.currentExpression < $scope.quantityExpression - 1) $scope.currentExpression++;
+    };
+    $scope.nextSoundLesson = function() {
+        if ($scope.currentExpression > 0) $scope.currentExpression--;
+    };
+    function showNextExpressions() {
+        var delay, letterTime = 200;
+
+        if ($scope.currentExpression > 0) {
+            $scope.currentExpression--;
+            localStorage['currentExpression'] = $scope.currentExpression;
+
+            showRuExpression();
+            speakRuExpression(1000 + letterTime * $scope.random[$scope.currentExpression].word.length);
+            toggleEnExpression('hidden');
+            showEnExpression();
+        } else {
+            $scope.enSoundExpression = '- - -';
+            $scope.ruSoundExpression = '- - -';
+            $scope.$apply();
+        }
+    }
+    function applyAndShowNextExpression() {
+        if ($scope.isPlayLesson) {
+            showNextExpressions();
+            $scope.$apply();
+        }
+    }
+    function showRuExpression() {
+        $scope.ruSoundExpression = $scope.random[$scope.currentExpression].trnsl;
+    }
+    function showEnExpression() {
+        $scope.enSoundExpression = $scope.random[$scope.currentExpression].word;
+    }
+    function toggleEnExpression(toggle) {
+        document.getElementById('enSoundExpression').style.visibility = toggle;
+    }
+    function speakRuExpression(delay) {
+        responsiveVoice.speak($scope.random[$scope.currentExpression].trnsl, 'Russian Female', {
+            onend: function() {
+                setTimeout(speakEnExpression, delay);
+            }
+        });
+    }
+    function speakEnExpression() {
+        toggleEnExpression('visible');
+        responsiveVoice.speak($scope.random[$scope.currentExpression].word, 'UK English Male');
+        responsiveVoice.speak($scope.random[$scope.currentExpression].word, 'UK English Female', {
+            onend: function() {
+                setTimeout(applyAndShowNextExpression, 6000);
+            }
+        });
+    }
+
 
 	function compare(main, word) {
 		main = main.toLowerCase();

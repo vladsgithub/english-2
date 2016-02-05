@@ -86,6 +86,7 @@ the_post();
 		<button ng-click="test=false" ng-class="!test ? 'active' : ''">add sentences</button>
 		<button ng-click="test=1" ng-class="test == 1 ? 'active' : ''">perform sound lessons</button>
 		<button ng-click="test=2" ng-class="test == 2 ? 'active' : ''">perform writing lessons</button>
+        <button ng-click="test=3" ng-class="test == 3 ? 'active' : ''">listen writing lessons</button>
 
 		<form class="add-sentences" ng-hide="test" ng-submit="enterSentence()">
 			<fieldset>
@@ -265,6 +266,25 @@ the_post();
 				<button id="newTestWrite" type="button" ng-click="newTestWrite()">NEW TEST</button>
 			</fieldset>
 		</form>
+
+        <form class="perform-lessons" ng-show="test == 3">
+            <fieldset>
+                <h2>{{ruSoundExpression}}</h2>
+                <h3>({{currentExpression + 1}}/{{quantityExpression}})</h3>
+            </fieldset>
+            <fieldset>
+                <h1 id="enSoundExpression">{{enSoundExpression}}</h1>
+            </fieldset>
+            <fieldset class="inline-block-btn">
+                <button ng-click="prevSoundLesson()">PREV</button>
+                <button ng-click="playSoundLesson()">PLAY</button>
+                <button ng-click="stopSoundLesson()">STOP</button>
+                <button ng-click="nextSoundLesson()">NEXT</button>
+            </fieldset>
+            <fieldset>
+                <button ng-click="initSoundLesson()">START</button>
+            </fieldset>
+        </form>
 <!--////////////////////////// end: temporary solution ///////////////////////-->
 	</div>
 
