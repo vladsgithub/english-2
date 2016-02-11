@@ -83,14 +83,49 @@ the_post();
 		</form>
 
 <!--////////////////////////// begin: temporary solution ///////////////////////-->
+
+        <div>
+            <select id="vocabularySelect">
+                <option disabled="disabled" selected="selected">Choose the lesson</option>
+                <option ng-repeat="item in jsonFileNames">{{item}}</option>
+            </select>
+
+            <div class="float-right">
+            <?php
+                $scanDir = './././json';
+
+                if ( is_user_logged_in() && current_user_can('administrator') ){
+                    echo '<span id="primaryNameFile">long-english-</span><input id="newJsonFileName" type="text" placeholder="don\'t use \'-\'" /><button id="addNewJsonFile">Add new JSON file</button>';
+                }
+                function isNecessaryFile($var) {
+                    return (strpos($var, 'long-english-') !== false & substr_count($var, '-') == 2);
+                }
+                $filesNameArray = scandir($scanDir);
+                $filteredArray = array_filter($filesNameArray, "isNecessaryFile");
+
+                echo '<script>var primaryFileName = "long-english-", jsonFileNamesArray = [];';
+                foreach($filteredArray as $key => $value){
+                    echo 'jsonFileNamesArray.push("'.$value.'");';
+                }
+                echo '</script>';
+            ?>
+            </div>
+        </div>
+
 		<button ng-click="test=false" ng-class="!test ? 'active' : ''">add sentences</button>
 		<button ng-click="test=1" ng-class="test == 1 ? 'active' : ''">perform sound lessons</button>
 		<button ng-click="test=2" ng-class="test == 2 ? 'active' : ''">perform writing lessons</button>
         <button ng-click="test=3" ng-class="test == 3 ? 'active' : ''">listen writing lessons</button>
 
-		<form class="add-sentences" ng-hide="test" ng-submit="enterSentence()">
+        <?php
+        if ( is_user_logged_in() && current_user_can('administrator') ){
+            echo '<form class="add-sentences" ng-hide="test" ng-submit="enterSentence()">';
+        } else {
+            echo '<form class="add-sentences" ng-hide="test" onsubmit="warningAlert()">';
+        }
+        ?>
 			<fieldset>
-				<table>
+				<table class="original-table">
 					<thead>
 					<tr>
 						<th class="category">category</th>

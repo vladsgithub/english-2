@@ -1458,7 +1458,7 @@ footer.wpc a {
     }
 
     .word, .translation {
-      min-width: 400px;
+      min-width: 300px;
     }
   }
 
@@ -2537,5 +2537,61 @@ footer.wpc a {
         display: block;
       }
     }
+  }
+}
+
+
+.float-right {
+  float: right;
+  font-weight: bold;
+}
+.new-words select {
+  margin-bottom: 20px;
+}
+.new-words .inline-block-btn {
+  font-size: 0;
+
+  button {
+    display: inline-block;
+    width: 25%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  html[lang] {
+    margin-top: 0 !important;
+  }
+  .wpc-blog-main.new-words {
+    overflow: auto;
+  }
+  .wpc.wpc-group {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .wpc-links.wpc-group,
+  .wpc-blog-sidebar,
+  form#goto-sf,
+  .original-table,
+  footer#goto-fs,
+  .wpc-description {
+    display: none;
+  }
+  .new-words select {
+    margin: 10px 0;
+    padding: 0 15px;
+    width: 100%;
+    font-weight: bold;
+  }
+  .wpc-blog-main button {
+    margin: 10px 0;
+    width: 100%;
+  }
+  header.wpc .wpc-title {
+    font-size: 36px;
+  }
+  #enSoundExpression {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
   }
 }

@@ -9,11 +9,11 @@
   },
   {
     "word": "Do you mind?",
-    "trnsl": "Вы возражаете?"
+    "trnsl": "Вы не возражаете?"
   },
   {
-    "word": "I can't stand traveling by bus",
-    "trnsl": "Я не переношу путешествие на автобусе"
+    "word": "Can't stand something",
+    "trnsl": "Не переносить чего-либо"
   },
   {
     "word": "Exchange",
@@ -149,7 +149,7 @@
   },
   {
     "word": "A search for employment",
-    "trnsl": "Поиск трудоустройства"
+    "trnsl": "Поиск работы"
   },
   {
     "word": "Accidentally",
@@ -216,6 +216,10 @@
     "trnsl": "Представитель"
   },
   {
+    "word": "To consider",
+    "trnsl": "Рассматривать"
+  },
+  {
     "word": "To prepare",
     "trnsl": "Подготовить"
   },
@@ -241,7 +245,7 @@
   },
   {
     "word": "We both have qualification in IT",
-    "trnsl": "Мы оба имеем квалификацию в АйТи"
+    "trnsl": "Мы оба имеем квалификацию в ИТ"
   },
   {
     "word": "To apply for a job",

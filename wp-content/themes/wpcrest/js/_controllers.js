@@ -16,10 +16,10 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 	};
 
 	$scope.playPhrase = function(item) {
-		console.log("item=",item);
+		console.log("item=",item, responsiveVoice);
 		if (item && !item.sound) {
 			responsiveVoice.speak(item.word, 'UK English Male');
-			responsiveVoice.speak(item.word, 'US English Female');
+			responsiveVoice.speak(item.word, 'UK English Female');
 		}
 	};
 
@@ -50,51 +50,28 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 
 ////////////////////////// begin: temporary solution ///////////////////////
 	//var jsonFileName = 'sentences';
-    var jsonFileName;
-    $scope.jsonFileNames = jsonFileNamesArray;
-    (function($) {
-        $('#vocabularySelect').off('change.vocabulary').on('change.vocabulary', function() {
-            jsonFileName = $(this).find('option:checked').val().replace('.json', '');
-            $scope.getVocabulary();
-        });
-        $('#addNewJsonFile').off('click.newjson').on('click.newjson', function() {
-            if ($('#newJsonFileName').val().indexOf('-') >= 0) {
-                alert('A second part of the file name contents "-" symbol!!!');
-            } else {
-                var isOk = confirm("Are you sure?");
-                if (isOk) {
-                    $scope.jsonFileNames.push(primaryFileName + $('#newJsonFileName').val() + '.json');
-                    $scope.$apply();
-                    $('#newJsonFileName').val('');
-                    $('#vocabularySelect').focus();
-                }
-            }
-        });
-    })(jQuery);
+	var jsonFileName = 'long-english-06';
+	document.getElementsByClassName('wpc-description')[0].innerHTML = '=====================CURRENT FILE - <b>' + jsonFileName + '</b>=====================';
 
-    $scope.getVocabulary = function() {
-        document.getElementsByClassName('wpc-description')[0].innerHTML = '===CURRENT FILE - <b>' + jsonFileName + '</b>===';
+	$http.post("/json/" + jsonFileName + ".json").success(function(data){
+		$scope.sentences = data;
+	}).error(function(data){
+		$scope.sentences = [];
+	});
 
-        $http.get("/json/" + jsonFileName + ".json").success(function (data) {
-            $scope.sentences = data;
-        }).error(function (data) {
-            $scope.sentences = [];
-        });
-
-        $http.get("/json/" + jsonFileName + "-random.json").success(function (data) {
-            $scope.random = data;
-            initSentence();
-            initSentenceWrite();
-        }).error(function (data) {
-            $scope.random = [];
-        });
-    };
+	$http.post("/json/" + jsonFileName + "-random.json").success(function(data){
+		$scope.random = data;
+		initSentence();
+		initSentenceWrite();
+	}).error(function(data){
+		$scope.random = [];
+	});
 
 	$scope.enterSentence = function() {
-		if ($scope.newSnt && $scope.newSnt.word != "") {
-            $scope.newSnt.word = $scope.newSnt.word.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
-            $scope.newSnt.trnsl = $scope.newSnt.trnsl.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
+		$scope.newSnt.word = $scope.newSnt.word.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
+		$scope.newSnt.trnsl = $scope.newSnt.trnsl.replace(/\s+/g," ").replace(/(^\s+|\s+$)/g,'');
 
+		if ($scope.newSnt && $scope.newSnt.word != "") {
 			$scope.sentences.push($scope.newSnt);
 			$scope.newSnt = '';
 
@@ -108,7 +85,6 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 		}
 
 		document.getElementById('enSentence').focus();
-        jQuery('body').scrollTop(jQuery('#enSentence').offset().top - jQuery(window).height() / 2);
 	};
 
 	$scope.randomSentence = function() {
@@ -324,14 +300,10 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
     }
     function speakEnExpression() {
         toggleEnExpression('visible');
-        responsiveVoice.speak($scope.random[$scope.currentExpression].word, 'UK English Male', {
-            onend: function(data) {
-
-                responsiveVoice.speak($scope.random[$scope.currentExpression].word, 'US English Female', {
-                    onend: function() {
-                        setTimeout(applyAndShowNextExpression, 6000);
-                    }
-                });
+        responsiveVoice.speak($scope.random[$scope.currentExpression].word, 'UK English Male');
+        responsiveVoice.speak($scope.random[$scope.currentExpression].word, 'UK English Female', {
+            onend: function() {
+                setTimeout(applyAndShowNextExpression, 6000);
             }
         });
     }
@@ -375,10 +347,6 @@ function addTable(elm) {
 		div.innerHTML = table;
 		elm.setAttribute('data-ready', true);
 	}
-}
-
-function warningAlert() {
-    alert('You do not have permission for changing of the table! ');
 }
 
 /* Use this as a bookmark in your browser's panel for www.wordreference.com
