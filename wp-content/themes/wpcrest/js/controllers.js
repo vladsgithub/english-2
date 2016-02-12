@@ -72,16 +72,35 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
         });
     })(jQuery);
 
+    function saveJsonFile() {
+        var date = +new Date();
+        $http.post("/json/write.php?date=" + date + "&jsonFileName=" + jsonFileName, $scope.sentences).success(function(data){
+            console.log("data=", data);
+        }).error(function(data){
+            console.log("Error: " + data);
+            alert("Error: " + data);
+        });
+    }
+    $scope.deleteItem = function(index) {console.log(index);
+        var isOk = confirm("Are you sure you want to delete:\n" + $scope.sentences[index].word + " -> " + $scope.sentences[index].trnsl);
+
+        if (isOk) {
+            $scope.sentences.splice(index, 1);
+            saveJsonFile();
+        }
+    };
+
     $scope.getVocabulary = function() {
         document.getElementsByClassName('wpc-description')[0].innerHTML = '===CURRENT FILE - <b>' + jsonFileName + '</b>===';
 
-        $http.get("/json/" + jsonFileName + ".json").success(function (data) {
+        var date = +new Date();
+        $http.get("/json/" + jsonFileName + ".json?date=" + date).success(function (data) {
             $scope.sentences = data;
         }).error(function (data) {
             $scope.sentences = [];
         });
 
-        $http.get("/json/" + jsonFileName + "-random.json").success(function (data) {
+        $http.get("/json/" + jsonFileName + "-random.json?date=" + date).success(function (data) {
             $scope.random = data;
             initSentence();
             initSentenceWrite();
@@ -98,13 +117,7 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 			$scope.sentences.push($scope.newSnt);
 			$scope.newSnt = '';
 
-			var date = +new Date();
-			$http.post("/json/write.php?date=" + date + "&jsonFileName=" + jsonFileName, $scope.sentences).success(function(data){
-				console.log("data=", data);
-			}).error(function(data){
-				console.log("Error: " + data);
-				alert("Error: " + data);
-			});
+            saveJsonFile();
 		}
 
 		document.getElementById('enSentence').focus();

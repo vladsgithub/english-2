@@ -158,15 +158,18 @@ the_post();
 						</td>
 						<td>
 							<button type="button" ng-click="playPhrase(item)">play</button>
-							<label>
-								<input type="checkbox" ng-model="item.sound" ng-true-value="true" value="{{item.sound}}" />
-							</label>
 						</td>
 						<td>
 							no
 						</td>
 						<td>
-							no
+                            <?php
+                            if ( is_user_logged_in() && current_user_can('administrator') ){
+                                echo '<button type="button" ng-click="deleteItem($index)">del</button>';
+                            } else {
+                                echo 'no';
+                            }
+                            ?>
 						</td>
 					</tr>
 					</tbody>
@@ -190,9 +193,6 @@ the_post();
 						</td>
 						<td>
 							<button type="button" ng-click="playPhrase(newSnt)">play</button>
-							<label>
-								<input type="checkbox" ng-model="newSnt.sound" ng-true-value="true" value="{{newSnt.sound}}" />
-							</label>
 						</td>
 						<td>
 							no
