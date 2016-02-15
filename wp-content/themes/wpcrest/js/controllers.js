@@ -203,10 +203,14 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
             $scope.write.enClass = "true";
             document.getElementById("enWrite").value = $scope.write.word;
 
-            var nextLesson = function() {
-                $scope.playPhrase($scope.write);
+            var initSentence = function() {
                 alert('It is right!!!');
                 initSentenceWrite(1);
+            };
+            var nextLesson = function() {
+                $scope.playPhrase($scope.write);
+
+                setTimeout(initSentence, 100);
             };
             setTimeout(nextLesson, 10);
         } else {
@@ -283,11 +287,12 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
     };
     $scope.stopSoundLesson = function() {
         $scope.isPlayLesson = false;
+        responsiveVoice.pause();
     };
     $scope.playSoundLesson = function() {
         if (!$scope.isPlayLesson) {
             $scope.isPlayLesson = true;
-            showNextExpressions();
+            showNextExpressions(true);
         }
     };
     $scope.prevSoundLesson = function() {
@@ -296,11 +301,11 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
     $scope.nextSoundLesson = function() {
         if ($scope.currentExpression > 0) $scope.currentExpression--;
     };
-    function showNextExpressions() {
-        var delay, letterTime = 200;
+    function showNextExpressions(again) {
+        var letterTime = 200;
 
         if ($scope.currentExpression > 0) {
-            $scope.currentExpression--;
+            if (!again) $scope.currentExpression--;
             localStorage['currentExpression'] = $scope.currentExpression;
 
             showRuExpression();
@@ -329,7 +334,8 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
         document.getElementById('enSoundExpression').style.visibility = toggle;
     }
     function speakRuExpression(delay) {
-        responsiveVoice.speak($scope.random[$scope.currentExpression].trnsl, 'Russian Female', {
+        responsiveVoice.cancel();
+        responsiveVoice.speak($scope.ruSoundExpression, 'Russian Female', {
             onend: function() {
                 setTimeout(speakEnExpression, delay);
             }
@@ -342,7 +348,7 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 
                 responsiveVoice.speak($scope.random[$scope.currentExpression].word, 'US English Female', {
                     onend: function() {
-                        setTimeout(applyAndShowNextExpression, 6000);
+                        setTimeout(applyAndShowNextExpression, 2000);
                     }
                 });
             }
