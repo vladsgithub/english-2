@@ -304,6 +304,10 @@ the_post();
 
         <form class="perform-lessons" ng-show="test == 3">
             <fieldset>
+                <label><input name="soundLessonsRadio" type="radio" ng-model="radioButton.value" value="repeating" />To repeat sentences</label>
+                <label><input name="soundLessonsRadio" type="radio" ng-model="radioButton.value" value="listening" />To listen to sentences</label>
+            </fieldset>
+            <fieldset>
                 <h2>{{ruSoundExpression}}</h2>
                 <h3>({{currentExpression + 1}}/{{quantityExpression}})</h3>
             </fieldset>

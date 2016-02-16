@@ -302,14 +302,15 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
         if ($scope.currentExpression > 0) $scope.currentExpression--;
     };
     function showNextExpressions(again) {
-        var letterTime = 200;
+        var delay, letterTime = 200;
 
         if ($scope.currentExpression > 0) {
             if (!again) $scope.currentExpression--;
             localStorage['currentExpression'] = $scope.currentExpression;
 
             showRuExpression();
-            speakRuExpression(1000 + letterTime * $scope.random[$scope.currentExpression].word.length);
+            delay = ($scope.radioButton.value == 'repeating') ? (1000 + letterTime * $scope.random[$scope.currentExpression].word.length) : 1000;
+            speakRuExpression(delay);
             toggleEnExpression('hidden');
             showEnExpression();
         } else {
@@ -334,7 +335,7 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
         document.getElementById('enSoundExpression').style.visibility = toggle;
     }
     function speakRuExpression(delay) {
-        responsiveVoice.cancel();
+        //responsiveVoice.cancel();
         responsiveVoice.speak($scope.ruSoundExpression, 'Russian Female', {
             onend: function() {
                 setTimeout(speakEnExpression, delay);
@@ -344,11 +345,13 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
     function speakEnExpression() {
         toggleEnExpression('visible');
         responsiveVoice.speak($scope.random[$scope.currentExpression].word, 'UK English Male', {
+            rate: 0.85,
             onend: function(data) {
 
                 responsiveVoice.speak($scope.random[$scope.currentExpression].word, 'US English Female', {
                     onend: function() {
-                        setTimeout(applyAndShowNextExpression, 2000);
+                        var delay = ($scope.radioButton.value == 'repeating') ? 2000 : 4000;
+                        setTimeout(applyAndShowNextExpression, delay);
                     }
                 });
             }
@@ -365,6 +368,10 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 		}
 		return i + 1;
 	}
+
+    $scope.radioButton = {
+        value: 'repeating' // default
+    };
 
 	/* Array.shuffle( deep ) - перемешать элементы массива случайным образом
 
