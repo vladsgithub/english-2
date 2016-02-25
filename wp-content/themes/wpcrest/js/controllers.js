@@ -177,10 +177,14 @@ app.controller("controller", [ "$scope", "$http", function($scope, $http) {
 
 		if (allright == 1) {
 			// next test
+            var initSentenceST = function() {
+                alert('Ok!!!');
+                initSentence(1);
+            };
 			var nextLesson = function() {
 				$scope.playPhrase($scope.sound);
-				alert('Ok!!!');
-				initSentence(1);
+
+                setTimeout(initSentenceST, 100);
 			};
 			setTimeout(nextLesson, 10);
 		} else {
